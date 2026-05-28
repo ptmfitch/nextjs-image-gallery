@@ -14,7 +14,10 @@ module.exports = {
       },
       gridTemplateColumns: {
         'gallery': 'repeat(auto-fit, minmax(250px, 1fr))',
-      }
+      },
+      colors: {
+        'adobe-red': '#ED1C24',
+      },
     },
   },
   plugins: [],
