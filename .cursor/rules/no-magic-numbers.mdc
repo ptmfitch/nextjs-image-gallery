@@ -1,0 +1,58 @@
+---
+description: No magic numbers — use named constants and configuration instead of hard-coded literals
+alwaysApply: true
+---
+
+# No magic numbers
+
+Do not embed unexplained numeric literals in code. Extract them into named constants, config objects, or environment-driven settings.
+
+## When to extract
+
+- Layout sizes, spacing, z-index, timeouts, limits, thresholds
+- Repeated literals used in more than one place
+- Values that may change (design tokens, API limits, feature flags)
+
+## Preferred patterns
+
+```typescript
+// ❌ BAD
+const galleryHeight = Math.ceil(250 * widthHeightRatio);
+className="w-[250px]"
+
+// ✅ GOOD
+const GALLERY_THUMB_WIDTH_PX = 250;
+const galleryHeight = Math.ceil(GALLERY_THUMB_WIDTH_PX * widthHeightRatio);
+className={`w-[${GALLERY_THUMB_WIDTH_PX}px]`} // or a shared Tailwind token in config
+```
+
+```typescript
+// ❌ BAD
+max-h-[calc(100vh-12rem)]
+
+// ✅ GOOD
+const MODAL_IMAGE_MAX_HEIGHT = 'calc(100vh - 12rem)';
+// use in styles or a shared constants module
+```
+
+```typescript
+// ✅ GOOD — group related values
+const MODAL_LAYOUT = {
+  overlayPaddingRem: 1,
+  panelMaxHeight: 'calc(100vh - 2rem)',
+  imageMaxHeight: 'calc(100vh - 12rem)',
+  maxWidthPx: 1000,
+} as const;
+```
+
+## Exceptions (inline literals are OK)
+
+- `0`, `1`, `-1` for obvious indices, increments, or boolean-like checks
+- `100` in percentages when the meaning is self-evident (`100%`, `opacity-100`)
+- Standard mathematical identities (e.g. `Math.PI`, half = `/ 2` with a comment only if unclear)
+
+## Configuration over hard-coding
+
+- Prefer `tailwind.config.js` theme tokens for repeated layout values
+- Prefer env vars or config modules for API limits, pagination, and feature thresholds
+- Colocate constants at the top of the file or in a dedicated `constants.ts` when shared
