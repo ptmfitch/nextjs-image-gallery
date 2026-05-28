@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation';
 import Gallery from '@/app/components/Gallery';
 
 type Props = {
@@ -8,20 +9,21 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { myParams } = await params;
-
   const topic = myParams?.[0] ?? 'curated';
-  const page = myParams?.[1] ?? '1';
 
   return {
-    title: `${topic} you want - Page ${page}`,
+    title: `${topic} — Photo Gallery`,
   };
 }
 
 export default async function SearchResults({ params }: Props) {
   const { myParams } = await params;
-
   const topic = myParams?.[0] ?? 'curated';
-  const page = myParams?.[1] ?? '1';
+  const page = myParams?.[1];
 
-  return <Gallery topic={topic} page={page} />;
+  if (page) {
+    redirect(`/results/${topic}`);
+  }
+
+  return <Gallery topic={topic} />;
 }

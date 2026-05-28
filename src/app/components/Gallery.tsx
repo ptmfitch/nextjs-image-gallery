@@ -1,90 +1,28 @@
 import fetchImages from '@/lib/fetchImages';
-import type { ImagesResults } from '@/models/Images';
-import ImgContainer from './ImgContainer';
+import buildPexelsUrl from '@/lib/buildPexelsUrl';
+import getNextPage from '@/lib/getNextPage';
 import addBlurredDataUrls from '@/lib/getBase64';
-import getPrevNextPages from '@/lib/getPrevNextPages';
-import Footer from './Footer';
+import GalleryInfiniteScroll from './GalleryInfiniteScroll';
 
 type Props = {
   topic?: string | undefined;
-  page?: string | undefined;
 };
 
-export default async function Gallery({ topic = 'curated', page }: Props) {
-  let url;
-  if (topic === 'curated' && page) {
-    // browsing beyond home
-    url = `https://api.pexels.com/v1/curated?page=${page}`;
-  } else if (topic === 'curated') {
-    // home
-    url = 'https://api.pexels.com/v1/curated';
-  } else if (!page) {
-    // 1st page of search results
-    url = `https://api.pexels.com/v1/search?query=${topic}`;
-  } else {
-    // search result beyond 1st page
-    url = `https://api.pexels.com/v1/search?query=${topic}&page=${page}`;
-  }
-
-  const images: ImagesResults | undefined = await fetchImages(url);
+export default async function Gallery({ topic = 'curated' }: Props) {
+  const url = buildPexelsUrl(topic);
+  const images = await fetchImages(url);
 
   if (!images || images.per_page === 0)
     return <h2 className="m-4 text-2xl font-bold">No Images Found</h2>;
 
   const photosWithBlur = await addBlurredDataUrls(images);
-
-  const { prevPage, nextPage } = getPrevNextPages(images);
-
-  const footerProps = { topic, page, nextPage, prevPage };
+  const nextPage = getNextPage(images);
 
   return (
-    <>
-      <section className="px-1 my-3 grid grid-cols-gallery auto-rows-[10px]">
-        {photosWithBlur.map((photo) => (
-          <ImgContainer key={photo.id} photo={photo} />
-        ))}
-      </section>
-      <Footer {...footerProps} />
-    </>
+    <GalleryInfiniteScroll
+      initialPhotos={photosWithBlur}
+      topic={topic}
+      initialNextPage={nextPage}
+    />
   );
 }
-
-// 'use client';
-
-// import { useEffect, useState } from 'react';
-// import fetchImages from '@/lib/fetchImages';
-// import type { ImagesResults } from '@/models/Images';
-
-// export default function Gallery() {
-//   const [images, setImages] = useState<ImagesResults | undefined>(undefined);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const url = 'https://api.pexels.com/v1/curated';
-//       const result = await fetchImages(url);
-//       setImages(result);
-//       setLoading(false);
-//     };
-
-//     fetchData();
-//   }, []);
-
-//   if (loading) {
-//     return <h2 className="m-4 text-2xl font-bold">Loading...</h2>;
-//   }
-
-//   if (!images) {
-//     return <h2 className="m-4 text-2xl font-bold">No Images Found</h2>;
-//   }
-
-//   return (
-//     <section>
-//       <ul>
-//         {images.photos.map((photo) => (
-//           <li key={photo.id}>{photo.src.large}</li>
-//         ))}
-//       </ul>
-//     </section>
-//   );
-// }
