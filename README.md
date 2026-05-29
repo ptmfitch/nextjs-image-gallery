@@ -26,3 +26,26 @@ This project is an image gallery application that fetches images from pexels.com
   - <a href="https://www.pexels.com/api/" target="_blank">Learn more about Pexels API</a>
 
 Each of these technologies plays a vital role in delivering a modern, efficient, and user-friendly image gallery application.
+
+## Development
+
+### Setup
+
+1. Install dependencies: `npm install`
+2. Copy `.env.example` to `.env.local` and set your [Pexels API key](https://www.pexels.com/api/):
+   ```bash
+   cp .env.example .env.local
+   ```
+
+### Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start the development server |
+| `npm run typecheck` | Run TypeScript validation (`tsc --noEmit`) |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Run ESLint with auto-fix |
+| `npm run test` | Run unit tests (Vitest) |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run build` | Production build (requires `.env.local`) |
+| `npm run check` | Run typecheck, lint, test, and build |

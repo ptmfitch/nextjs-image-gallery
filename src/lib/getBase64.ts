@@ -13,8 +13,8 @@ async function getBase64(imageUrl: string) {
     const { base64 } = await getPlaiceholder(Buffer.from(buffer));
 
     return base64;
-  } catch (err) {
-    if (err instanceof Error) console.log(err.stack);
+  } catch {
+    return undefined;
   }
 }
 
