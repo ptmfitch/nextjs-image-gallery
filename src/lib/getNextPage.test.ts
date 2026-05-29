@@ -24,4 +24,11 @@ describe('getNextPage', () => {
     const images = makeImages();
     expect(getNextPage(images)).toBeNull();
   });
+
+  it('returns null when next_page has no page query param', () => {
+    const images = makeImages({
+      next_page: 'https://api.pexels.com/v1/curated',
+    });
+    expect(getNextPage(images)).toBeNull();
+  });
 });
