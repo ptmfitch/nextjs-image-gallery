@@ -79,7 +79,7 @@ export default function GalleryInfiniteScroll({
 
   return (
     <>
-      <section className="px-1 my-3 grid grid-cols-gallery auto-rows-[10px]">
+      <section className="px-1 my-3 grid grid-cols-gallery auto-rows-gallery">
         {photos.map((photo) => (
           <ImgContainer key={photo.id} photo={photo} />
         ))}
