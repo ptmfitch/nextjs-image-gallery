@@ -1,3 +1,8 @@
+const {
+  GALLERY_THUMB_WIDTH_PX,
+  GALLERY_GRID_ROW_UNIT_PX,
+} = require('./src/app/constants/galleryLayout.js');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -12,8 +17,14 @@ module.exports = {
         'gradient-conic':
           'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
+      width: {
+        'gallery-thumb': `${GALLERY_THUMB_WIDTH_PX}px`,
+      },
       gridTemplateColumns: {
-        'gallery': 'repeat(auto-fit, minmax(250px, 1fr))',
+        gallery: `repeat(auto-fit, minmax(${GALLERY_THUMB_WIDTH_PX}px, 1fr))`,
+      },
+      gridAutoRows: {
+        gallery: `${GALLERY_GRID_ROW_UNIT_PX}px`,
       },
       colors: {
         'adobe-red': '#ED1C24',

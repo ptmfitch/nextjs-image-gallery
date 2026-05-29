@@ -8,8 +8,9 @@ export default function buildPexelsUrl(
   if (topic === 'curated') {
     return 'https://api.pexels.com/v1/curated';
   }
+  const encodedTopic = encodeURIComponent(topic);
   if (!page) {
-    return `https://api.pexels.com/v1/search?query=${topic}`;
+    return `https://api.pexels.com/v1/search?query=${encodedTopic}`;
   }
-  return `https://api.pexels.com/v1/search?query=${topic}&page=${page}`;
+  return `https://api.pexels.com/v1/search?query=${encodedTopic}&page=${page}`;
 }

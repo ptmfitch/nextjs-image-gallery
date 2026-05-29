@@ -5,9 +5,9 @@ import Navbar from './components/Navbar';
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: 'Next.js Image Gallery',
-  description: 'Just great Next.js Image Gallery',
-}
+  title: 'Photo Gallery',
+  description: 'Browse and search high-quality photos from Pexels.',
+};
 
 export default function RootLayout({
   children,

@@ -3,15 +3,14 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 
-import React from 'react';
-
 export default function Search() {
   const [search, setSearch] = useState('');
   const router = useRouter();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    if (search) router.push(`/results/${search}`);
+    const query = search.trim();
+    if (query) router.push(`/results/${encodeURIComponent(query)}`);
     setSearch('');
   }
 
