@@ -1,5 +1,6 @@
 import './globals.css';
 import type { Metadata } from 'next';
+import FavoritesProvider from './components/FavoritesProvider';
 import Navbar from './components/Navbar';
 
 export const revalidate = 3600;
@@ -19,7 +20,7 @@ export default function RootLayout({
       <body>
         <Navbar />
         <main className='max-w-6xl mx-auto'>
-          {children}
+          <FavoritesProvider>{children}</FavoritesProvider>
         </main>
       </body>
     </html>

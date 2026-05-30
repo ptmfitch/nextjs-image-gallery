@@ -16,7 +16,15 @@ export default function Navbar() {
             Photo Gallery
           </Link>
         </h1>
-        <Search />
+        <div className="flex flex-col sm:flex-row items-center gap-4">
+          <Link
+            href="/favorites"
+            className="text-lg hover:opacity-90 whitespace-nowrap"
+          >
+            Favorites
+          </Link>
+          <Search />
+        </div>
       </nav>
     </header>
   );

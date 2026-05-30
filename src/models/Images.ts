@@ -8,7 +8,7 @@ const BasicImageSchema = z.object({
   total_results: z.number(),
 });
 
-const PhotoSchema = z.object({
+export const PhotoSchema = z.object({
   id: z.number(),
   width: z.number(),
   height: z.number(),
