@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import SearchIcon from './SearchIcon';
 
 export default function Search() {
   const [search, setSearch] = useState('');
@@ -19,13 +20,16 @@ export default function Search() {
       onSubmit={handleSubmit}
       className="flex justify-center md:justify-between"
     >
-      <input
-        type="text"
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search"
-        className="bg-white p-2 w-[260px] sm:w-80 text-xl rounded-xl text-black focus:outline-green-600"
-      />
+      <div className="relative">
+        <SearchIcon className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search"
+          className="w-search-input sm:w-search-input-sm rounded-xl bg-white py-2 pl-10 pr-2 text-xl text-black focus:outline-green-600"
+        />
+      </div>
     </form>
   );
 }

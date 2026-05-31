@@ -1,0 +1,7 @@
+const SEARCH_INPUT_WIDTH_PX = 260;
+const SEARCH_INPUT_WIDTH_SM_PX = 320;
+
+module.exports = {
+  SEARCH_INPUT_WIDTH_PX,
+  SEARCH_INPUT_WIDTH_SM_PX,
+};
