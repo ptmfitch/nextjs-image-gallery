@@ -2,6 +2,7 @@ const {
   GALLERY_THUMB_WIDTH_PX,
   GALLERY_GRID_ROW_UNIT_PX,
 } = require('./src/app/constants/galleryLayout.js');
+const { SEARCH_LAYOUT } = require('./src/app/constants/searchLayout.ts');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -19,6 +20,8 @@ module.exports = {
       },
       width: {
         'gallery-thumb': `${GALLERY_THUMB_WIDTH_PX}px`,
+        'search-input': `${SEARCH_LAYOUT.inputWidthPx}px`,
+        'search-input-sm': `${SEARCH_LAYOUT.inputWidthSmPx}px`,
       },
       gridTemplateColumns: {
         gallery: `repeat(auto-fit, minmax(${GALLERY_THUMB_WIDTH_PX}px, 1fr))`,
