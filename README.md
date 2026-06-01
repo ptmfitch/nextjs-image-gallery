@@ -1,6 +1,6 @@
 ## Project: Pexels Image Gallery
 
-This project is an image gallery application that fetches images from pexels.com. It features pagination and allows users to search for images based on the object in the picture (e.g., typing "cat" displays images of cats). The application was built using the following technologies and tools:
+This project is an image gallery application that fetches images from pexels.com. It features infinite scrolling and allows users to search for images based on the object in the picture (e.g., typing "cat" displays images of cats). The application was built using the following technologies and tools:
 
 ### 1. **Framework and Core**
 
@@ -36,6 +36,7 @@ Each of these technologies plays a vital role in delivering a modern, efficient,
    ```bash
    cp .env.example .env.local
    ```
+3. The app validates `NEXT_PUBLIC_PEXELS_API_KEY` on startup. Local development and production builds need this value to be set.
 
 ### Commands
 
@@ -49,3 +50,21 @@ Each of these technologies plays a vital role in delivering a modern, efficient,
 | `npm run test:watch` | Run tests in watch mode |
 | `npm run build` | Production build (requires `.env.local`) |
 | `npm run check` | Run typecheck, lint, test, and build |
+
+### Runtime data flow
+
+- `/` renders curated Pexels photos through the server component at `src/app/components/Gallery.tsx`.
+- `/results/<query>` decodes the search query, redirects away from legacy page segments, and renders the same gallery component for that topic.
+- `Gallery` builds the Pexels URL, fetches and validates the response with Zod, enriches each photo with a Plaiceholder blur data URL, and passes the initial payload to `GalleryInfiniteScroll`.
+- `GalleryInfiniteScroll` uses an `IntersectionObserver` sentinel to call `GET /api/gallery?topic=<topic>&page=<page>` for additional pages.
+- `src/app/api/gallery/route.ts` requires the `page` query parameter, reuses the same Pexels fetch/validation/blur helpers, and returns `{ photos, nextPage }`.
+
+### Testing notes
+
+- Vitest runs in a Node environment and includes `src/**/*.test.ts` and `src/**/*.test.tsx`.
+- `vitest.config.ts` maps the `@` alias to `src`, matching the app source imports.
+- Current coverage focuses on URL construction, page parsing, Pexels fetch handling, Plaiceholder enrichment, Zod image schema validation, and the gallery API route.
+
+### Internal rollback helper
+
+The Cursor skill at `.cursor/skills/pre-demo-rollback/` can reset a local checkout to the pre-demo baseline commit `f84c228`. Use it only when an operator explicitly asks for a pre-demo rollback or demo reset, and review uncommitted work before running the script.
